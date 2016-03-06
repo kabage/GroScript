@@ -116,10 +116,6 @@ public class Db {
 
 		System.out.println("Just hit 100000");
 		System.out.println("\n");
-		System.out.println("\n");
-		System.out.println("\n");
-		System.out.println("\n");
-		System.out.println("\n");
 
 		try {
 			db_populate_statement = connection.createStatement();
@@ -206,6 +202,10 @@ public class Db {
 				crop.setYEAR(Integer.valueOf(record[30]));
 
 				crop.setVALUE(record[37]);
+
+				if (isDataInTimeRange(start, stop, crop.getYEAR())) {
+					System.out.println("Record for the Year:" + crop.getYEAR());
+				}
 				/*
 				 * ensure value is validated as an integer before appending to
 				 * list
@@ -215,11 +215,11 @@ public class Db {
 					populateDb(crops);
 					crops.clear();
 				} else {
-					if (isDataInTimeRange(start, stop, crop.getYEAR()))
+					if (isDataInTimeRange(start, stop, crop.getYEAR())) {
 						crops.add(crop);
-				}
 
-				System.out.println(crop.getYEAR() + "..." + record[36]);
+					}
+				}
 
 			}
 		} catch (IOException e1) {

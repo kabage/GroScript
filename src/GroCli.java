@@ -52,14 +52,14 @@ public class GroCli {
 				start_date = cmd.getOptionValue("start_date");
 				end_date = cmd.getOptionValue("end_date");
 
-				// Db.downloadFile("ftp://ftp.nass.usda.gov/quickstats/qs.crops_20160305.txt.gz");
-				// UncompressFile.uncompress();
+				Db.downloadFile("ftp://ftp.nass.usda.gov/quickstats/qs.crops_20160305.txt.gz");
+				UncompressFile.uncompress();
 				Db.createDbAndTables(Db.connectToDb(database_host,
 						database_name, database_user, database_password));
 
 				Db.parseCSVLib("/home/qs.crops.txt",
-						Integer.valueOf(start_date.substring(0, 3)),
-						Integer.valueOf(end_date.substring(0, 3)));
+						Integer.valueOf(start_date.substring(0, 4)),
+						Integer.valueOf(end_date.substring(0, 4)));
 
 			}
 
