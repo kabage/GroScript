@@ -1,67 +1,7 @@
 
-Conversation opened. 2 messages. All messages read.
-
-Skip to content
-Using Gmail with screen readers
-edward
-Click here to enable desktop notifications for Gmail.   Learn more  Hide
-
-
-More
-8 of 1,837
-
-Gro Hackathon Starter Script
-Inbox
-	x
-Victor Kipkoech <victor.kipkoech@gro-intelligence.com>
-
-AttachmentsMar 5 (1 day ago)
-
-to adriateri, alexk249076, amosnzivu, Binmonk, brndnyokabi, dai.tensai1, denzjoseph, ericmwenda5, gaithoben, gitonga.mwenda, imadege1990, info, me, kiilueric, kingkonig, mainad57, martindeto, morris, nyongesa.pius2., olooesqr, peterd.mureithi, savioabuga, tommwenda, vivianmondi, Hezron
-Hi!
-
-To help get you started, here's a simple starter script for harvest.py file. It meets the API requirements we defined for you here. Feel free to edit it.
-
-To test run:
-python harvest.py
-
-For help, run
-python harvest.py -h
-
-Example call:
-python harvest.py  --database_host arg1 --database_name arg2 --start_date=2005-1-1
-
-Kind regards
-2 Attachments
-Preview attachment harvest.py
-[Text]
-Preview attachment March 5 Gro Hackathon - Problem Definition
-[Google Docs]
-Hezron Obuchele <hezron.obuchele@gro-intelligence.com>
-
-AttachmentsMar 5 (1 day ago)
-
-to Victor, adriateri, alexk249076, amosnzivu, Binmonk, brndnyokabi, dai.tensai1, denzjoseph, ericmwenda5, gaithoben, gitonga.mwenda, imadege1990, info, me, kiilueric, kingkonig, mainad57, martindeto, morris, nyongesa.pius2., olooesqr, peterd.mureithi, savioabuga, tommwenda, vivianmondi
-Here's the problem definition for those who didn't get the Google doc link.
-Attachments area
-Preview attachment March5GroHackathon-ProblemDefinition.pdf
-[PDF]
-
-Click here to Reply, Reply to all, or Forward
-1.53 GB (10%) of 15 GB used
-Manage
-Terms - Privacy
-Last account activity: 0 minutes ago
-Details
-
-
-25 more
-	Hezron Obuchele
-Show details
-
 import sys
 import getopt
-
+import subprocess
 
 def begin_nass_harvest(database_host, database_name, database_user, database_password,
                        port, start_date, end_date):
@@ -79,18 +19,8 @@ def begin_nass_harvest(database_host, database_name, database_user, database_pas
     print "Database Port (hard-coded): {}".format(port)
     print "Harvest Start Date: {}".format(start_date)
     print "Harvest End Date: {}\n".format(end_date)
-    
-    process1 = subprocess.Popen(['adb', '-e','shell', 'sqlite3','-batch',
-       '/data/data/com.whatsapp/databases/msgstore.db',
-        'select data from messages where data NOT NULL;'],
 
-
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
-
-    out, err = process1.communicate()
-
-# #################################################
+    subprocess.call(['java', '-jar', 'gro_script.jar','--database_host',database_host,'--database_name',database_name,'--database_user',database_user,'--database_pass',database_password,'--start_date',start_date,'--end_date',end_date])         #################################################
 # PUT YOUR CODE ABOVE THIS LINE
 # #################################################
 def main(argv):
@@ -142,6 +72,3 @@ def main(argv):
 
 if __name__ == "__main__":
    main(sys.argv[1:])
-
-harvest.py
-Displaying harvest.py.
