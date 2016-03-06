@@ -250,7 +250,7 @@ public class Db {
 		// + "qs.crops.txt");
 
 		System.out.println("The file is being downloaded");
-		File file_location = new File("/home/" + "qs.crops.txt");
+		File file_location = new File("/home/" + "qs.crops.gz");
 
 		URL file_url = null;
 		try {
