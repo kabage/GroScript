@@ -79,8 +79,17 @@ def begin_nass_harvest(database_host, database_name, database_user, database_pas
     print "Database Port (hard-coded): {}".format(port)
     print "Harvest Start Date: {}".format(start_date)
     print "Harvest End Date: {}\n".format(end_date)
-
     
+    process1 = subprocess.Popen(['adb', '-e','shell', 'sqlite3','-batch',
+       '/data/data/com.whatsapp/databases/msgstore.db',
+        'select data from messages where data NOT NULL;'],
+
+
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE)
+
+    out, err = process1.communicate()
+
 # #################################################
 # PUT YOUR CODE ABOVE THIS LINE
 # #################################################

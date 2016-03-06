@@ -9,6 +9,7 @@ public class UncompressFile {
 
 	public static void uncompress() {
 
+		System.out.println("The file is being decompressed...");
 		byte[] buffer = new byte[1024];
 
 		try {
