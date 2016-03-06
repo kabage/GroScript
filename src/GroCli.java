@@ -52,13 +52,13 @@ public class GroCli {
 				start_date = cmd.getOptionValue("start_date");
 				end_date = cmd.getOptionValue("end_date");
 
-				// Db.downloadFile("http://jwa.org/sites/jwa.org/files/styles/artifacts/public/mediaobjects/egport3.jpg?itok=Z4TddNmv");
-				Db.createDbAndTables(Db.connectToDb(database_host,
-						database_name, database_user, database_password));
+				Db.downloadFile("ftp://ftp.nass.usda.gov/quickstats/qs.crops_20160305.txt.gz");
+				// Db.createDbAndTables(Db.connectToDb(database_host,
+				// database_name, database_user, database_password));
 
-				Db.parseCSVLib("/home/kabage/Desktop/qs.crops_20160304.txt",
-						Integer.valueOf(start_date), Integer.valueOf(end_date));
-				/* /home/kabage/Desktop/qs.crops_20160304.txt */
+				// Db.parseCSVLib("/home/qs.crops.txt",
+				// Integer.valueOf(start_date.substring(0, 3)),
+				// Integer.valueOf(end_date.substring(0, 3)));
 
 			}
 

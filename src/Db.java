@@ -249,7 +249,8 @@ public class Db {
 		// File file_location = new File(System.getProperty("user.dir")
 		// + "qs.crops.txt");
 
-		File file_location = new File("/home/kabage/Desktop/" + "GOOOOP.txt");
+		System.out.println("The file is being downloaded");
+		File file_location = new File("/home/" + "qs.crops.txt");
 
 		URL file_url = null;
 		try {
