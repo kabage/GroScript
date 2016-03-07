@@ -19,6 +19,7 @@ public class Db {
 
 	static Connection connection = null;
 	static Statement db_populate_statement;
+	static int bulk_query_size = 2000;
 
 	public static Connection connectToDb(String database_host,
 			String database_name, String database_user, String database_pass) {
@@ -43,7 +44,7 @@ public class Db {
 			System.out.println("error making connection " + e.toString());
 		}
 
-		System.out.println("connected fine");
+		System.out.println("\n Connected to Database....");
 
 		Statement statement = null;
 		try {
@@ -109,13 +110,10 @@ public class Db {
 		} catch (SQLException e) {
 			System.out.println("error creating table " + e.toString());
 		}
-		System.out.println("Database table created");
+		System.out.println(" \n Database table created");
 	}
 
 	public static void populateDb(List<Crop> crops) {
-
-		System.out.println("Just hit 100000");
-		System.out.println("\n");
 
 		try {
 			db_populate_statement = connection.createStatement();
@@ -189,7 +187,12 @@ public class Db {
 		}
 
 		try {
+
+			int count = 0;
 			while ((record = reader.readNext()) != null) {
+
+				System.out.print("\r Records read" + ":"
+						+ String.valueOf(count++));
 				Crop crop = new Crop();
 				crop.setAGG_LEVEL_DESC(record[12]);
 				crop.setCOMMODITY_DESC(record[3]);
@@ -203,35 +206,34 @@ public class Db {
 
 				crop.setVALUE(record[37]);
 
-				if (isDataInTimeRange(start, stop, crop.getYEAR())) {
-					System.out.println("Record for the Year:" + crop.getYEAR());
-				}
 				/*
 				 * ensure value is validated as an integer before appending to
 				 * list
 				 */
-				if (crops.size() > 100000) {
+				if (crops.size() > bulk_query_size) {
 					/* sets size of batch queries to be executed */
 					populateDb(crops);
 					crops.clear();
 				} else {
-					if (isDataInTimeRange(start, stop, crop.getYEAR())) {
+					if (isDataInTimeRange(start, stop, crop.getYEAR())
+							&& isLowestRegionCounty(record)) {
 						crops.add(crop);
 
 					}
 				}
-
 			}
 		} catch (IOException e1) {
 			System.out.println("Ioexception e1 " + e1.toString());
 		}
+
+		populateDb(crops);
 		try {
 			reader.close();
 		} catch (IOException e) {
 			System.out.println("error closing file");
 
 		}
-		System.out.println(crops.toString());
+
 	}
 
 	public static Boolean isDataInTimeRange(int start, int stop, int YEAR) {
@@ -243,13 +245,21 @@ public class Db {
 		}
 	}
 
+	public static Boolean isLowestRegionCounty(String[] record) {
+		/*
+		 * Ensures that the lowest Aggregation level is County.
+		 */
+		if (record[12].equals("COUNTY")) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static void downloadFile(String url) {
-		/* Donwloads the data file from the usda website */
+		/* Donwloads the data file from the usda website saving it to /home/ */
 
-		// File file_location = new File(System.getProperty("user.dir")
-		// + "qs.crops.txt");
-
-		System.out.println("The file is being downloaded....");
+		System.out.println("The file is being downloaded.... :-) ");
 		File file_location = new File("/home/" + "qs.crops.gz");
 
 		URL file_url = null;
@@ -266,7 +276,17 @@ public class Db {
 		}
 	}
 
-	public static void saveDataStatistics(Crop crop) {
+	public static void saveDataStatistics(Connection connection) {
+
+		try {
+			Statement statstatement = connection.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/* Shows statistics for the state of oregon */
+		String filtered_by_value = "select *  INTO stats FROM fact_data  WHERE state_name=OREGON";
 
 	}
 }
